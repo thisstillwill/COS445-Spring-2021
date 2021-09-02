@@ -1,0 +1,57 @@
+\documentclass[12pt]{article}%
+\usepackage{amsfonts}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.2cm, right=2.2cm]%
+{geometry}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{changepage}
+\usepackage{amssymb}
+\let\proof\relax
+\let\endproof\relax
+\usepackage{graphicx}%
+\setcounter{MaxMatrixCols}{30}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+\begin{document}
+
+\title{COS 445 - PSet 3, Problem 1} %Replace X with homework number, Y with problem number.
+\author{Anakin Skywalker} %Write your name here
+\date{\today}
+\maketitle
+\section*{Problem 1: Repeated Prisoner’s Dilemma}
+\subsection*{Part a}
+We wish to prove that neither Alice nor Bob has a dominant strategy in Repeated Prisoner's Dilemma.
+
+Let us define a possible strategy for Alice as follows: Alice will always begin the game by cooperating, unless Bob chooses to defect at some round $t = k$. In every subsequent round, Alice will punish Bob by always defecting even if Bob chooses to cooperate again. We can then calculate Bob's final payoff as $2 \cdot (k - 1) + 5 + 1 \cdot (1000 - k)$. In other words, Bob will receive a payoff of 2 for the first $k - 1$ rounds by cooperating, a payoff of 5 on round $k$ when he defects, and a payoff of 1 for every subsequent round until the game ends. We observe that this function is maximized when $k = 1000$, that is Bob will receive the greatest possible payoff by waiting until the very last round to defect. Therefore, in this specific scenario Bob would have a dominant strategy.
+
+However, this does not hold true in other cases. If Alice changed to always defect from the beginning of the game, Bob would only receive a payoff of $999 \cdot 0 + 1 = 1$ if he followed the strategy described above. If he wanted to maximize his payoff in this scenario, he would need to defect every round as well.
+
+Although the strategy of waiting to defect until the last round is not dominant, no other strategy is dominating either. Therefore, as in the Traveler’s Dilemma problem there is no dominant strategy for either player.
+
+\subsection*{Part b}
+We wish to prove that there exists an execution of iterated deletion of weakly dominated strategies that terminates with Alice and Bob each only having a single remaining strategy.
+
+In the base case, we observe that during round 1000, Alice's dominant strategy is to defect. If she cooperates, her payoff is at most 2 if Bob also cooperates or 0 if he chooses to defect. If Alice defects instead, her payoff is at least 1 no matter what the other player does and up to 5 if Bob cooperates. Therefore, it is best for Alice if she decides to defect.
+
+We then prove the claim through induction. Let round $t = i$, where $1 < i < 1000$, be the last round where Alice decides to cooperate. We observe that if Alice cooperates in round $i$, that strategy is dominated by repeating the actions up to round $i - 1$ and then defecting during round $i$.
+
+Therefore, we iteratively delete the cooperation strategy each time from Alice's choices. When we reach the first round of the game, Alice's only remaining strategy is to defect. The same is true if we consider the above process with Bob, meaning that in either case Alice and Bob are left with defection as their single remaining strategy.
+
+\subsection*{Part c}
+We wish to prove that if Alice plays the “Tit-for-Tat” strategy, then no matter what Bob does his total payoff after 1000 rounds is at least as large as Alice’s.
+
+In the base case, we examine what happens after a single round. By definition of the Tit-for-Tat strategy, Alice will start the game by cooperating. Bob can choose to either cooperate or defect. If he cooperates, Bob and Alice will receive a payoff of 2. If he defects, Bob will receive a payoff of 5 and Alice will have a payoff of 0. In either scenario, Bob's total payoff after the first round is at least as large (if he cooperates) or larger (if he defects).
+
+We then prove the claim through induction. We assume that for all rounds $t = k$, where $1 < k < 1000$, Bob's payoff is at least as large as Alice’s. It remains be shown that the claim holds in round $k + 1$. We start by observing that if Alice chooses to cooperate, it is because Bob chose to cooperate during the previous round (by definition of the Tit-for-Tat strategy). Therefore, no matter what Bob does in round $k + 1$, his payoff will be greater than or equal to Alice's. We then observe that if Alice chooses to defect, it is because Bob himself defected the previous round. This means Bob's payoff from round $k$ and round $k + 1$ is at least $5 + 1 = 6$, which is greater than Alice's payoff of $0 + 1 = 1$.
+
+If we assume their payoffs were at least equal during each prior round, we know that Bob's total payoff must be at least as large as Alice's at the end of the game.
+
+\end{document}

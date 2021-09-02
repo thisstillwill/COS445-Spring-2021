@@ -1,0 +1,51 @@
+\documentclass[12pt]{article}%
+\usepackage{amsfonts}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.2cm, right=2.2cm]%
+{geometry}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{changepage}
+\usepackage{amssymb}
+\let\proof\relax
+\let\endproof\relax
+\usepackage{graphicx}%
+\usepackage{qtree}
+\setcounter{MaxMatrixCols}{30}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+\begin{document}
+
+\title{COS 445 - PSet 5, Problem 2} %Replace X with homework number, Y with problem number.
+\author{Odysseus} %Write your name here
+\date{\today}
+\maketitle
+\section*{Problem 2: Obvious Dominance}
+\subsection*{Part a}
+We wish to prove that Player One has an Obviously Dominant strategy in the given game.
+
+By definition, a complete strategy $s$ is obviously dominant if it obviously dominates all other strategies from all points of departure $S$. Since it is given that each node is a distinct information set, we simply analyze each node where Player One acts and show that Player One has a dominant strategy at that node.
+
+The first choice Player One makes is between L and R. Choosing R is the dominant strategy, because the worst payoff Player One could receive (0 after the sequence RZF) is no worse than the worst payoff from choosing L (0 after the sequence LXA). Furthermore, the best payoff Player One could receive (4 after the sequence RZE) is better than the best payoff from choosing L (3 after the sequence LYD).
+
+At the node reached after the sequence RZ, Player One also has a dominant strategy. It is strictly better to choose E over H, because no matter what Player Two does the payoff for choosing E (4) is strictly greater than the payoff for choosing F (0). Likewise, at the node reached after the sequence RW it is strictly better for Player One to choose G over H.
+
+The situation is the same when considering the nodes that can be reached after choosing L. After the sequence LX, the dominant strategy is to choose B since the resulting payoff (1) is strictly higher than the payoff (0) from the only other action that can be taken after the point of departure (choosing A). Similarly, at the node reached after the sequence LY Player One's dominant strategy is to choose D since the resulting payoff of 3 is strictly greater than the payoff from choosing C (3, and noting that C is the only other possible action from the particular point of departure).
+
+Because the strategy is obviously dominant at every possible point of departure, Player One has an Obviously Dominant strategy in the given game.
+
+\subsection*{Part b}
+We wish to prove that Player Two does not have an Obviously Dominant strategy for the given game. Player Two's decisions are between X and Y (if Player One chooses L) and between Z and W (if Player One chooses R). To prove that Player Two does not have an Obviously Dominant strategy, we will show that picking between X and Y or between Z and W does not necessarily lead to a better outcome.
+
+If Player Two picks X, they will receive a final payoff of either 2 or 1 depending on the next choice Player One makes (between A and B). Picking X does not necessarily lead to a better outcome, however. For example, it is possible that Player Two could receive a better payoff by picking Y instead. This can be demonstrated by comparing the sequence LYC, where Player Two receives a payoff of 2 versus the sequence LXB where picking X leads to a payoff of only 1. It is also not necessarily better to pick Y, as can be seen by comparing the payoff from the sequence LYD (0) versus the payoff from the sequence LXA or LXB (2 and 1 respectively). Because there are scenarios in which either X or Y is dominated, neither of them can therefore be strictly dominant.
+
+The same can be scene when comparing Z and W. The outcome is better by choosing Z over Q when comparing the sequences RZF and RWG (with payoffs of 8 and 7 respectively), however the opposite is true when the sequences RWH (payoff 6) and RZE (payoff 4) are considered instead. Therefore Player Two does not have an Obviously Dominant strategy for the given game.
+
+\end{document}

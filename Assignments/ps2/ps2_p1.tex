@@ -1,0 +1,56 @@
+\documentclass[12pt]{article}%
+\usepackage{amsfonts}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.2cm, right=2.2cm]%
+{geometry}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{changepage}
+\usepackage{amssymb}
+\let\proof\relax
+\let\endproof\relax
+\usepackage{graphicx}%
+\setcounter{MaxMatrixCols}{30}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+\begin{document}
+
+\title{COS 445 - PSet 2, Problem 1} %Replace X with homework number, Y with problem number.
+\author{Sherlock Holmes} %Write your name here
+\date{\today}
+\maketitle
+\section*{Problem 1: Two Candidates, Two Rules}
+\subsection*{Part a}
+We wish to design a voting rule which is not unanimous, is anonymous, and is not neutral when there are $n \ge 3$ voters and $m = 2$ candidates. Let us define $F$ to be as follows: The two candidates are $A$ and $B$ and their identities are always known. Let $F$ output $A$ as the winner, no matter how anyone votes.
+
+\subsubsection*{Not unanimous}
+The voters are free to order their preference lists however they want. If $F$ is unanimous, then if $B$ everyone's favorite candidate the winner should be $B$. However, $F$ will still output $A$ in this scenario no matter how anyone votes. Therefore, $F$ is not unanimous.
+
+\subsubsection*{Anonymous}
+As established earlier, candidate $A$ will always be selected as the winner. This means that the identities of the voters do not matter, since if the winner is essentially preselected the outcome will always be the same ($F$ outputs $A$). Therefore, $F$ is anonymous.
+
+\subsubsection*{Not neutral}
+If $F$ is neutral, then the identities of the candidates do not matter. However, it is given that if $A$ is running in the election they will always be selected. This means that a candidate's identity does matter, because not being $A$ effectively means a candidate will not be selected. Therefore, $F$ is not neutral.
+
+\subsection*{Part b}
+We wish to design a voting rule which is unanimous, is anonymous, and is not neutral when there are $n \ge 3$ voters and $m = 2$ candidates. Let us define $F$ to be as follows: The two candidates are $A$ and $B$ and their identities are always known. Each voter is required to list $A$ as their most preferred candidate, but is free to order their other preferences to their liking. Let $F$ output the candidate who is the first choice of the most amount of people.
+
+\subsubsection*{Unanimous}
+Each voter always lists $A$ as their first preference. If $F$ is unanimous, then if a candidate is everyone's favorite they will be selected. Since each voter is required to list $A$ as their favorite, $A$ will naturally be the first choice of the most amount of people. Therefore, $F$ is unanimous.
+
+\subsubsection*{Anonymous}
+As established earlier, each voter is required to list $A$ as their favorite. This means that the identities of the voters do not matter, since the outcome will always be the same ($F$ outputs $A$). Therefore, $F$ is anonymous.
+
+\subsubsection*{Not neutral}
+If $F$ is neutral, then the identities of the candidates do not matter. However, each voter is specifically required to list $A$ as their favorite. This means that a candidate's identity does matter, because not being $A$ means an alternative candidate will never be a voter's top choice. Therefore, $F$ is not neutral.
+
+As a side-note, this is essentially a form of dictatorship since voters are coerced into producing unanimous decisions.
+
+\end{document}

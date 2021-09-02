@@ -1,0 +1,114 @@
+\documentclass[12pt]{article}%
+\usepackage{amsfonts}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.2cm, right=2.2cm]%
+{geometry}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{changepage}
+\usepackage{amssymb}
+\let\proof\relax
+\let\endproof\relax
+\usepackage{graphicx}%
+\setcounter{MaxMatrixCols}{30}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+\begin{document}
+
+\title{COS 445 - PSet 4, Problem 2} %Replace X with homework number, Y with problem number.
+\author{Bro} %Write your name here
+\date{\today}
+\maketitle
+\section*{Problem 2: Noisy Optimizers aren’t Good Enough}
+\subsection*{Part a}
+We wish to prove that for any given $\vec{b}_{-i}$ there exists a price $p$ such that bidder $i$ will either win the item and pay $p$ or not get the item (and pay nothing) no matter what bid they make.
+
+Suppose the auction is run with $\vec{b}_{-1}$, that is without bidder $i$ being considered. Let $p$ be the bid of the resulting winner $j \neq i$. It is already given that each accepted bid is nonnegative. We note that when using $A(\vec{b}_{-1}, -2)$ the price that is output after running $A$ is equivalent to the price output when just running the auction without $b_i$. In other words, the resulting price that is charged is still $p$.
+
+Therefore, no matter what $b$ does they will either win and pay $p$ or lose and not pay anything.
+
+\subsection*{Part b}
+We wish to prove that if all other bidders tell the truth then bidder $i$'s best response is to make a winning bid.
+
+A bidder's utility is equal to $v - p$, where $v$ is the value of the item to a particular bidder and $p$ is the price they pay for that item. If $v_i > v_j$ for all bidders $j \neq i$, then we know that bidder $i$'s utility $v_i - p$ must also be the greatest.
+
+We also know that if bidder $i$ wins their utility must be equal to $v_i - b_{A(\vec{b}_{-1}, -2)}$, since it is given that the winner is charged $b_{A(\vec{b}_{-1}, -2)}$. Additionally, whatever bid $b_i$ bidder $i$ makes must also be greater than $b_{A(\vec{b}_{-1}, -2)}$. Finally, because it is assumed that all other bidders $j \neq i$ tell the truth the price they would pay is equal to $v_{A(\vec{b}_{-1}, -2)}$. In other words, they are strictly incentivized to report the true value of the item to them as their bid (and so would end up paying $v_{A(\vec{b}_{-1}, -2)}$).
+
+Since $v_i > v_j$ for all bidders $j \neq i$ and $b_i > b_{A(\vec{b}_{-1}, -2)}$, a winning bid for bidder $i$ will always be positive. Therefore, it is in bidder $i$'s best interest to make a winning bid.
+
+\subsection*{Part c}
+
+We wish to prove that error-prone second-price auction is not incentive compatible by providing an example where the second-highest bidder wins and is strictly worse off despite all voters telling the truth. Let us consider three bidders 1, 2, 3 and their associated bids:
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Bid   & Amount \\ \hline
+$b_1$ & 4      \\ \hline
+$b_2$ & 3      \\ \hline
+$b_3$ & 1      \\ \hline
+\end{tabular}
+\end{center}
+
+Even though $b_1$ is the largest bid bidder 2 will be selected as the winner because $b_2$ is exactly one less than $b_1$. Therefore, $b_2$ will be declared the winner and will be charged $b_{A(\vec{b}_{-1}, -2)}$. We then consider the remaining set of bids
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Bid   & Amount \\ \hline
+$b_1$ & 4      \\ \hline
+$b_3$ & 1      \\ \hline
+\end{tabular}
+\end{center}
+
+The bid $b_1$ will be selected since it is more than one greater than the second-highest $b_3$. Therefore, the winner bidder 2 will be charged $b_1 = 4$. If we assume that everyone tells the truth then bidder 2's payoff must be $v_2 - p = 3 - 4 = -1$ since $v_2$ is taken as the true value of the item to them. Because bidder 2 received a strictly worse payoff even though all bidders told the truth, the auction is not incentive compatible.
+
+\subsection*{Part d}
+
+We wish to prove that error-prone second-price auction is not incentive compatible by providing an example where the highest bidder wins but the second-highest bidder would have been strictly happier by lying.
+
+Let us consider three bidders 1, 2, 3 and their associated bids:
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Bid   & Amount \\ \hline
+$b_1$ & 4      \\ \hline
+$b_2$ & 3.5      \\ \hline
+$b_3$ & 3      \\ \hline
+\end{tabular}
+\end{center}
+
+Bidder 1 will be selected as the winner because the next highest bid, $b_2$, is not exactly one less than $b_1$. We then consider the remaining set of bids: 
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Bid   & Amount \\ \hline
+$b_2$ & 3.5      \\ \hline
+$b_3$ & 3      \\ \hline
+\end{tabular}
+\end{center}
+
+This means that bidder 1 will be charged $b_2 = 3.5$. However we then consider the following alternate bids where bidder 2 chooses to lie:
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Bid   & Amount \\ \hline
+$b_1$ & 4      \\ \hline
+$b_2$ & 4.5      \\ \hline
+$b_3$ & 3      \\ \hline
+\end{tabular}
+\end{center}
+
+Here bidder 2 will be selected as the winner, and will end up paying $b_3 = 3$. Since $b_2 > b_3$, bidder 2 would have been strictly happier by lying.
+
+\end{document}

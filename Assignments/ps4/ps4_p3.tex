@@ -1,0 +1,106 @@
+\documentclass[12pt]{article}%
+\usepackage{amsfonts}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.2cm, right=2.2cm]%
+{geometry}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{changepage}
+\usepackage{amssymb}
+\let\proof\relax
+\let\endproof\relax
+\usepackage{graphicx}%
+\setcounter{MaxMatrixCols}{30}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+\begin{document}
+
+\title{COS 445 - PSet 4, Problem 3} %Replace X with homework number, Y with problem number.
+\author{Bro} %Write your name here
+\date{\today}
+\maketitle
+\section*{Problem 3: Revenue Equivalence}
+\subsection*{Part a}
+We wish to find the expected revenue of the second-price auction when two bidders with values independently drawn from equal-revenue curves bid their true value.
+
+We begin by observing that in the second-price auction the only person who actually pays is the winner. Therefore, the revenue of the auction is just the winner's final payment. We note that this is just the minimum of the two bidders' values, because it is given that each bidder uses submits their true value.
+
+Let $X$ represent the minimum of the two values, which is both the revenue of the auction and drawn independently from equal-revenue curves. Our goal then is to find $E[X]$. We note that $E[X] = \int_{0}^{\infty} x \cdot PDF(x)dx$ and $E[X] = \int_{0}^{\infty} (1 - CDF(x))dx$, where $PDF(x)dx$ is roughly $Pr(X = x)$ and $1 - CDF(x) = Pr (X > x)$. We then calculate the expectation:
+
+\begin{equation}
+\begin{split}
+&= \int_{0}^{1} (1 - 0)dx + \int_{1}^{\infty} (1 - (1 - \frac{1}{x}))^{2}dx\\
+&= 1 + \int_{1}^{\infty} \frac{1}{x^2}\\
+&= 1 + \frac{-1}{x} \Bigr\rvert_{1}^{\infty}\\
+&= 2
+\end{split}
+\end{equation}
+
+Therefore, the expected revenue of the auction is 2.
+
+\subsection*{Part b}
+We wish to find the expected payment made by bidder one in the second-price auction, conditioned on bidding $v_1$ and when bidder two truthfully reports $v_2 \leftarrow ER$.
+
+It is given that $P_{1}^{SPA}(v_1, v_2)$ is $v_2$ if $v_1 > v_2$ and 0 otherwise, meaning that the expected payment of bidder one will be $E_{v_2 \leftarrow ER} [P_{1}^{SPA}(v_1, v_2)]$. Finally, we integrate over $Pr(P_{1}^{SPA} = x) \cdot x$:
+
+\begin{equation}
+\begin{split}
+0 + \int_{0}^{v_1} (Pr(P_{1}^{SPA} = x) \cdot x)dx &= \int_{0}^{1} dx \cdot 0 + \int_{1}^{v_1} (x \cdot \frac{1}{x^2})dx\\
+&= \ln(v_1) - \ln\lvert 1 \rvert\\
+&= \ln(v_1)
+\end{split}
+\end{equation}
+
+We note this was calculated in the context of the PDF, of which $f(x)$ is given as equal to $\frac{1}{x^2}$. This means that $\int_{0}^{v_1} (Pr(P_{1}^{SPA} = x) \cdot x)dx = \int_{1}^{v_1} (x \cdot \frac{1}{x^2})dx$. Given the case when $P_{1}^{SPA}(v_1, v_2) = v_2$, the PDF will be the same as $v_2$ as well.
+
+\subsection*{Part c}
+We wish to prove that if both bidders use bidding strategy $b(\cdot)$ in the All-Pay auction the bidder with the highest value will always win the item.
+
+Given $b(\cdot)$, if bidder one has a value $v_1$ their resulting bid will be $\ln(v_1)$. Likewise, bidder two will have a resulting bid of $\ln(v_2)$. The natural logarithm of a number $x$ increases monotonically, because its output never decreases as long as $x$ is increasing. Therefore, the bidder with the highest value will always end up winning the item.
+
+\subsection*{Part d}
+We wish to calculate the expected utility that bidder one achieves by bidding $b_1$ if their value is $v_1$, assuming that bidder two uses the bidding strategy $b(\cdot)$.
+
+It is given in the All-Pay auction that if bidder $i$ wins their utility is $v_i - b_i$ and otherwise their utility is $-b_i$. This is directly related to the random variable for bidder one $U_{1}(v_1, b, b_1)$. Additionally, we know from the prior section that bidder two bids $\ln(v_2)$ underr $b(\cdot)$. Bidder one will have a nonnegative utility then if $\ln(v_2) \le b_1$. We can rewrite this equality by raising each side of the inequality to $e$:
+
+\begin{equation}
+\begin{split}
+\ln(v_2) &\le b_1\\
+v_2 &\le e^{b_1}
+\end{split}
+\end{equation}
+
+This means we can  solve the CDF for the input $e^{b_1}$, which is just $1 - \frac{1}{e^{b_1}}$. By the law of total probability, the expected utility for bidder 1 must then be the following:
+
+\begin{equation}
+\begin{split}
+E(U_1) = v_1 \cdot (1 - \frac{1}{e^{b_1}}) - b_1
+\end{split}
+\end{equation}
+
+\subsection*{Part e}
+
+We wish to prove that $b(\cdot)$ is a Bayes-Nash Equilibrium of the All-Pay auction, when there are two bidders whose values are drawn independently from the equal-revenue curve.
+
+As calculated previously, if bidder two has a value $v_2$ their resulting bid will be $\ln(v_2)$. This means that bidder one will always win for any bid $b_1 > \ln(v_2)$, since (as also shown previously), the natural log function increases monotonically.
+
+The expected value for bidder one's utility is $E(U_1) = v_1 \cdot (1 - \frac{1}{e^{b_1}}) - b_1 = v_1 - \frac{v_1}{e^{b_1}}$. If we take the derivative of this with respect to $b_1$ we have:
+
+\begin{equation}
+\begin{split}
+\frac{v_1}{e^{b_1}} - 1 = 0\\
+e^{b_1} = v_1\\
+b_1 = \ln(v_1)
+\end{split}
+\end{equation}
+
+In other words, the argmax is $b_1 = \ln(v_1)$. Therefore, the bidding strategy is a Bayes-Nash Equilibrium since bidding $b(v_1)$ maximizes one's utility.
+
+\end{document}

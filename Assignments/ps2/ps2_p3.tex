@@ -1,0 +1,61 @@
+\documentclass[12pt]{article}%
+\usepackage{amsfonts}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.2cm, right=2.2cm]%
+{geometry}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{changepage}
+\usepackage{amssymb}
+\let\proof\relax
+\let\endproof\relax
+\usepackage{graphicx}%
+\setcounter{MaxMatrixCols}{30}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+\begin{document}
+
+\title{COS 445 - PSet 2, Problem 3} %Replace X with homework number, Y with problem number.
+\author{Sherlock Holmes} %Write your name here
+\date{\today}
+\maketitle
+\section*{Problem 3: Representative Preferences}
+\subsection*{Part a}
+We wish to prove that $V$ has a strong representative when it is pairwise-issue-aligned and contains an odd number of voters.
+
+It is given that there are an odd number of voters. We first observe that the median voter will always be in the majority. If it wasn't, then it would be possible to have a majority that contained fewer than half of voters. Crucially, having an odd number of voters means that it is impossible to have a tie between voters.
+
+To have a strong representative, a preference ordering must both be a representative and be in V. By definition of being pairwise-issue-aligned, all preferences to the left and right of the threshold agree. We already know that there is an odd number of voters, so there will be a strict majority in favor of each pair of candidates for all possible pairs. This is true for all possible pairs, because the median voter will never change (and thus will still be in the majority). Therefore, $V$ must have a strong representative.
+
+\subsection*{Part b}
+We wish to prove that $V$ has a representative when it is single-peaked and contains an odd number of voters.
+
+We describe a recursive algorithm that is guaranteed to produce a representative of $V$. To begin, we align the preferences based on the median voter's peak. In each round of the algorithm, the median voter and their peak is removed from consideration. The associated candidate is then added to a preference ordering. We observe that when a voter is removed, the remaining preferences are still single-peaked. The voter must prefer either the candidate immediately to the left or to the right of deleted peak, since preferences decrease with distance from the peak in single-peaked preferences. Additionally, whatever side is the new peak will be known to be higher than the points adjacent to it.
+
+In effect, each peak removal selects the majority winner \emph{for the voters that are currently present in the round}. We can be certain this is the case because it is given that there are an odd number of voters, meaning it is impossible to have a tie. The algorithm terminates when there are no longer any candidates to consider. What is left behind is a representative of $V$, since the algorithm produces an ordering where the preference between each pair of candidates was decided by a strict majority of voters each round.
+
+\subsection*{Part c}
+We wish to provide an example of a single-peaked V with an odd number of voters, such that V does not have a strong representative.
+
+Let us assume there are three voters $v_1$, $v_2$, and $v_3$ and four candidates $c_1$, $c_2$,  and $c_3$. Let us also assume that the preference orderings are as follows:
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Voter & Preferences             \\ \hline
+$v_1$ & $c_2 > c_3 > c_4 > c_1$ \\ \hline
+$v_2$ & $c_3 > c_2 > c_1 > c_4$ \\ \hline
+$v_3$ & $c_3 > c_4 > c_2 > c_1$ \\ \hline
+\end{tabular}
+\end{center}
+
+We observe that $c_3$ is preferred to all other candidates by a strict majority of voters. However, none of the preference orderings are a strong representative. For example, in $v_3$'s list $c_4$ is preferred to $c_2$. This is not shared by any other voter, so $v_3$ cannot be a strong representative. Similarly, $v_2$ prefers $c_1$ to $c_4$ and $v_1$ prefers $c_2$ to $c_3$, with neither preference being shared by a strict majority. Therefore, the example $V$ given above does not have a strong representative.
+
+\end{document}

@@ -1,0 +1,100 @@
+\documentclass[12pt]{article}%
+\usepackage{amsfonts}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.2cm, right=2.2cm]%
+{geometry}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{changepage}
+\usepackage{amssymb}
+\let\proof\relax
+\let\endproof\relax
+\usepackage{graphicx}%
+\setcounter{MaxMatrixCols}{30}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+\begin{document}
+
+\title{COS 445 - PSet 2, Problem 2} %Replace X with homework number, Y with problem number.
+\author{Sherlock Holmes} %Write your name here
+\date{\today}
+\maketitle
+\section*{Problem 2: Find the Bug!}
+\subsection*{Part a}
+We wish to prove that $F$ is Equivalent, unanimous, not a dictatorship, and not a Condorcet extension when there are only $m = 2$ alternatives and any number $n \ge 3$ voters.
+
+\subsubsection*{Equivalent}
+When there are only $m = 2$ candidates, each of the $n \ge 3$ voters can only have two possible preferences lists: $a_1 > a_2$ or $a_2 > a_1$. This means that all voters who prefer $a_1$ will have the same preference lists (the same is true among voters who prefer $a_2$). Since a $\succ$ that prefers the same candidate will always be $a$-equivalent to a $\succ$ that prefers the same candidate, $F$ will always be Equivalent.
+
+\subsubsection*{Unanimous}
+$F$ is unanimous if whenever $a$ is everyone’s favorite candidate, the rule selects $a$.
+
+Let us consider the scenario when all prefer $a_1$ to $a_2$. In this situation, $a_2$ is dominated by $a_1$ and $a_1$ is not dominated by the only other candidate. $F$ selects the minimum candidate not dominated by any other candidate, so the output will be $a_1$. Since $a_1$ is also everyone's favorite candidate, $a_1$ is chosen unanimously. Likewise, when $a_2$ is preferred by everyone $F$ will be unanimous since $a_2$ will be the minimum candidate not dominated by any other candidate. 
+
+No other possibility exists where a candidate is everyone's favorite. Therefore, $F$ is unanimous.
+
+\subsubsection*{Not a dictatorship}
+$F$ is a dictatorship if there exists a voter $i$ such that $F$ always outputs $i$'s favorite candidate.
+
+Let us assume for contradiction that a voter $i$ does exist such that $F$ always outputs $i$'s favorite candidate. Let $i$ prefer $a_2$ to $a_1$. If $F$ is indeed a dictatorship, then $a_2$ will always be selected. However, if at least one other voter prefers $a_1$ then neither candidate is dominated. This means that $F$ will output $a_1$ since it is the minimum candidate not dominated by any other candidate.
+
+This is a contradiction, since $i$'s preference was $a_2$ not $a_1$. Therefore, $F$ is not a dictatorship.
+
+\subsubsection*{Not a Condorcet extension}
+$F$ is a Condorcet extension if it always selects a Condorcet winner, when one exists.
+
+Let us assume for contradiction that $F$ is a Condorcet extension. Let us also assume that among the $n$ voters, $n - 1$ vote for $a_2$ and $1$ votes for $a_1$. The Condorcet winner is $a_2$, since a strict majority ($n -1$ vs $1$) of voters prefer $a_2$ to $a_1$. If $F$ is a Condorcet extension, it must then select $a_2$. However, it is given that $F$ outputs the minimum candidate not dominated by any other candidate. Since $a_1$ has one vote in this scenario, it is the minimum candidate that is not dominated and will thus be selected. 
+
+Because this is a contradiction, $F$ is therefore not a Condorcet extension.
+
+\subsection*{Part b}
+We wish to prove that $F$ is not Equivalent when $m \ge 3$. Let us assume there are two voters, $v_1$ and $v_2$, and three candidates $a_1$, $a_2$, and $a_3$ where the preference lists are as follows:
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Voter & Preferences       \\ \hline
+$v_1$ & $a_2 > a_3 > a_1$ \\ \hline
+$v_2$ & $a_3 > a_1 > a_2$ \\ \hline
+\end{tabular}
+\end{center}
+
+In this situation, $a_3$ dominates $a_1$ since all voters prefer $a_3$ to $a_1$. However, $a_2$ still wins since it is both not dominated (it is $v_1$'s first choice) and it is the minimum candidate that is not dominated. However, let us define a new preference list $v_1'$ such that the preference lists are as follows:
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Voter & Preferences       \\ \hline
+$v_1'$ & $a_2 > a_1 > a_3$ \\ \hline
+$v_2$ & $a_3 > a_1 > a_2$ \\ \hline
+\end{tabular}
+\end{center}
+
+Now $a_1$ is no longer dominated, and so wins because it is now the minimum candidate that is not dominated. If $F$ is equivalent, then altering the preferences below $a_2$ for $v_1$ should not make a difference in the selected candidate. However, we observe that $v_1'$, which swaps the two lower preferences, changes the output.
+
+Because this is a contradiction, $F$ is therefore not Equivalent.
+
+\subsection*{Part c}
+We wish to find the specific line in the proof that is incorrect and prove that is false.
+
+In this proof, the sentence “Every voter prefers candidate $a_i$ to candidate $a_j$, for all $j < i$” is incorrect. It is not true that the winner selected by $F$ is necessarily the one you prefer. As a counterexample, we consider the scenario when there are two voters, $v_1$ and $v_2$, and three candidates $a_k$, $a_i$, and $a_j$ where $k > i > j$. Let us assume preference lists are as follows:
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Voter & Preferences       \\ \hline
+$v_1$ & $a_i > a_k > a_j$ \\ \hline
+$v_2$ & $a_k > a_j > a_i$ \\ \hline
+\end{tabular}
+\end{center}
+
+We observe that all voters prefer $a_k$ to $a_j$, but that $v_2$ actually prefers $a_j$ to $a_i$. However, $a_i$ still wins because $a_j$ is dominated by $a_k$. This means that when $a_i$ is selected, it does not mean that every voter always prefers $a_i$ to $a_j$. This contradicts the statement that “every voter prefers candidate $a_i$ to candidate $a_j$, for all $j < i$” when $a_i$ is selected. Therefore, the statement is false.
+
+\end{document}
